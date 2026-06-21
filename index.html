@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บ้านยาสะพานขาว - ร้านยาใกล้บ้าน บริการด้วยใจ กับเภสัชใกล้คุณ</title>
+    <meta name="description" content="บ้านยาสะพานขาว ร้านขายยาบรรยากาศอบอุ่น บริการเภสัชกรรมชุมชนด้วยใจ ใส่ใจราวกับครอบครัว พร้อมให้คำปรึกษาและดูแลคุณ">
+    
+    <!-- Google Fonts: Itim -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        itim: ['Itim', 'cursive'],
+                    },
+                    colors: {
+                        cafe: {
+                            50: '#fbf8f3',
+                            100: '#f5efe6',
+                            200: '#eadbc3',
+                            300: '#dfc29c',
+                            400: '#d1a271',
+                            500: '#c6864d',
+                            600: '#b96e3f',
+                            700: '#9a5635',
+                            800: '#804832',
+                            900: '#673b2a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Itim', cursive;
+        }
+        /* Mobile Menu Animation */
+        #mobile-menu {
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        #mobile-menu.open {
+            max-height: 300px;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-cafe-50 text-cafe-900 antialiased selection:bg-cafe-300 selection:text-cafe-900">
+
+    <!-- 1. Navbar -->
+    <nav class="fixed w-full z-50 transition-all duration-300 bg-white/90 backdrop-blur-md shadow-sm" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="#" class="text-3xl font-bold text-cafe-700 tracking-wider hover:text-cafe-600 transition-colors">
+                        บ้านยาสะพานขาว
+                    </a>
+                </div>
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#vibe" class="text-lg text-cafe-800 hover:text-cafe-500 transition-colors">บรรยากาศร้าน</a>
+                    <a href="#signature" class="text-lg text-cafe-800 hover:text-cafe-500 transition-colors">เมนูแนะนำ</a>
+                    <a href="#contact" class="text-lg text-cafe-800 hover:text-cafe-500 transition-colors">ติดต่อเรา</a>
+                    <a href="form.html" class="bg-green-600 text-white px-6 py-2.5 rounded-full shadow-md hover:bg-green-700 transition-all transform hover:-translate-y-0.5 text-lg">จองคิวออนไลน์</a>
+                    <a href="#signature" class="bg-cafe-600 text-white px-6 py-2.5 rounded-full shadow-md hover:bg-cafe-700 transition-all transform hover:-translate-y-0.5 text-lg">รายการยา</a>
+                    <a href="dashboard.html" class="text-lg text-blue-600 hover:text-blue-800 transition-colors font-bold border-l-2 pl-4 border-gray-300">เข้าสู่ระบบเภสัชกร</a>
+                </div>
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="text-cafe-800 hover:text-cafe-600 focus:outline-none">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden bg-white border-t border-cafe-100">
+            <div class="px-4 pt-2 pb-4 space-y-1">
+                <a href="#vibe" class="block px-3 py-3 text-lg text-cafe-800 hover:bg-cafe-50 rounded-lg">บรรยากาศร้าน</a>
+                <a href="#signature" class="block px-3 py-3 text-lg text-cafe-800 hover:bg-cafe-50 rounded-lg">เมนูแนะนำ</a>
+                <a href="#contact" class="block px-3 py-3 text-lg text-cafe-800 hover:bg-cafe-50 rounded-lg">ติดต่อเรา</a>
+                <a href="form.html" class="block px-3 py-3 text-lg text-green-700 font-bold hover:bg-green-50 rounded-lg">จองคิวออนไลน์</a>
+                <a href="dashboard.html" class="block px-3 py-3 text-lg text-blue-600 font-bold hover:bg-blue-50 rounded-lg border-t border-gray-100 mt-2">เข้าสู่ระบบเภสัชกร</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. Hero Section -->
+    <section class="relative h-screen flex items-center justify-center pt-20">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="LINE_ALBUM_3167_๒๔๐๑๑๓_138.jpg" alt="บรรยากาศร้านบ้านยาสะพานขาว" class="w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-black/40"></div>
+            <!-- Gradient for smooth transition to next section -->
+            <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-cafe-50 to-transparent"></div>
+        </div>
+        
+        <!-- Content -->
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 drop-shadow-lg leading-tight">
+                บ้านยาสะพานขาว<br/>
+                <span class="text-3xl md:text-4xl lg:text-5xl text-cafe-100 font-normal mt-4 block">ร้านยาใกล้บ้าน บริการด้วยใจ กับเภสัชใกล้คุณ</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-cafe-50 mb-10 drop-shadow-md">
+                "บริการเภสัชกรรมชุมชนด้วยใจ ใส่ใจราวกับครอบครัว"
+            </p>
+            <a href="#signature" class="inline-block bg-white text-cafe-700 font-bold text-xl px-10 py-4 rounded-full shadow-xl hover:bg-cafe-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                ดูรายการยาที่แนะนำ
+            </a>
+        </div>
+    </section>
+
+    <!-- 3. Vibe & Atmosphere -->
+    <section id="vibe" class="py-24 bg-cafe-50 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold text-cafe-800 mb-4">แวะมาใช้บริการที่ร้านยา</h2>
+                <div class="w-24 h-1 bg-cafe-300 mx-auto rounded-full"></div>
+                <p class="mt-6 text-xl text-cafe-600 max-w-2xl mx-auto">บรรยากาศโปร่งสบาย สไตล์คาเฟ่ ให้คุณรู้สึกผ่อนคลายและเป็นกันเองทุกครั้งที่มาเยือน</p>
+            </div>
+            
+            <!-- Masonry-like Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[250px]">
+                <div class="lg:col-span-2 lg:row-span-2 overflow-hidden rounded-2xl shadow-lg group">
+                    <img src="LINE_ALBUM_3167_๒๔๐๑๑๓_146.jpg" alt="หน้าร้านบ้านยาสะพานขาว" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                </div>
+                <div class="overflow-hidden rounded-2xl shadow-lg group">
+                    <img src="LINE_ALBUM_9366_๒๓๑๒๑๙_61.jpg" alt="บรรยากาศในร้าน" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                </div>
+                <div class="overflow-hidden rounded-2xl shadow-lg group">
+                    <img src="S__30572583_0.jpg" alt="มุมสินค้าสุขภาพ" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                </div>
+                <div class="overflow-hidden rounded-2xl shadow-lg group">
+                    <img src="LINE_ALBUM_3167_๒๔๐๑๑๓_149.jpg" alt="ตู้ยา" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                </div>
+                <div class="lg:col-span-2 overflow-hidden rounded-2xl shadow-lg group">
+                    <img src="LINE_ALBUM_3167_๒๔๐๑๑๓_150.jpg" alt="บรรยากาศการให้บริการ" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Signature Menu (Medicine Cabinet) -->
+    <section id="signature" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold text-cafe-800 mb-4">ตู้ยาที่ให้บริการ</h2>
+                <div class="w-24 h-1 bg-cafe-400 mx-auto rounded-full"></div>
+                <p class="mt-6 text-xl text-cafe-600 max-w-2xl mx-auto">ยาคุณภาพที่คัดสรรมาอย่างดี พร้อมคำแนะนำจากเภสัชกรผู้เชี่ยวชาญ</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Card 1 -->
+                <div class="bg-cafe-50 rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group border border-cafe-100">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="LINE_ALBUM_9366_๒๓๑๒๑๙_34.jpg" alt="ยาสามัญประจำบ้าน" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    <div class="p-6 text-center">
+                        <h3 class="text-2xl font-bold text-cafe-800 mb-2">ยาสามัญประจำบ้าน</h3>
+                        <p class="text-cafe-600 mb-4 text-lg">บรรเทาอาการเจ็บป่วยเบื้องต้น</p>
+                        <div class="inline-block bg-white px-4 py-2 rounded-full shadow-sm text-cafe-700 font-bold border border-cafe-100">
+                            เริ่มต้น 20.-
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-cafe-50 rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group border border-cafe-100">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="LINE_ALBUM_9366_๒๓๑๒๑๙_36.jpg" alt="วิตามินและอาหารเสริม" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    <div class="p-6 text-center">
+                        <h3 class="text-2xl font-bold text-cafe-800 mb-2">วิตามิน & อาหารเสริม</h3>
+                        <p class="text-cafe-600 mb-4 text-lg">ดูแลสุขภาพจากภายใน</p>
+                        <div class="inline-block bg-white px-4 py-2 rounded-full shadow-sm text-cafe-700 font-bold border border-cafe-100">
+                            เริ่มต้น 150.-
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-cafe-50 rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group border border-cafe-100">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="LINE_ALBUM_9366_๒๓๑๒๑๙_48.jpg" alt="อุปกรณ์การแพทย์" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    <div class="p-6 text-center">
+                        <h3 class="text-2xl font-bold text-cafe-800 mb-2">อุปกรณ์ปฐมพยาบาล</h3>
+                        <p class="text-cafe-600 mb-4 text-lg">ชุดทำแผลและอุปกรณ์ฉุกเฉิน</p>
+                        <div class="inline-block bg-white px-4 py-2 rounded-full shadow-sm text-cafe-700 font-bold border border-cafe-100">
+                            เริ่มต้น 15.-
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="bg-cafe-50 rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group border border-cafe-100">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="LINE_ALBUM_9366_๒๓๑๒๑๙_51.jpg" alt="เวชสำอาง" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    <div class="p-6 text-center">
+                        <h3 class="text-2xl font-bold text-cafe-800 mb-2">เวชสำอาง</h3>
+                        <p class="text-cafe-600 mb-4 text-lg">ดูแลผิวพรรณอย่างอ่อนโยน</p>
+                        <div class="inline-block bg-white px-4 py-2 rounded-full shadow-sm text-cafe-700 font-bold border border-cafe-100">
+                            เริ่มต้น 89.-
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Location & Contact -->
+    <section id="contact" class="py-24 bg-cafe-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-2">
+                    
+                    <!-- Contact Info -->
+                    <div class="p-10 md:p-16 flex flex-col justify-center">
+                        <h2 class="text-4xl font-bold text-cafe-800 mb-6">ที่ตั้งและช่องทางติดต่อ</h2>
+                        <p class="text-xl text-cafe-600 mb-10">แวะมาปรึกษาปัญหาสุขภาพกับเภสัชกรของเราได้ทุกวัน</p>
+                        
+                        <div class="space-y-6">
+                            <!-- Address -->
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 bg-cafe-50 p-3 rounded-full text-cafe-600 mt-1">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-xl font-bold text-cafe-800">ที่อยู่</h4>
+                                    <p class="text-lg text-cafe-600 mt-1">123 ถนนสะพานขาว แขวง/ตำบล... เขต/อำเภอ... จังหวัด... 10000</p>
+                                </div>
+                            </div>
+
+                            <!-- Hours -->
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 bg-cafe-50 p-3 rounded-full text-cafe-600 mt-1">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-xl font-bold text-cafe-800">เวลาเปิดทำการ</h4>
+                                    <p class="text-lg text-cafe-600 mt-1">เปิดทุกวัน: 08:00 น. - 20:00 น.</p>
+                                </div>
+                            </div>
+
+                            <!-- Phone -->
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 bg-cafe-50 p-3 rounded-full text-cafe-600 mt-1">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-xl font-bold text-cafe-800">เบอร์โทรศัพท์</h4>
+                                    <p class="text-lg text-cafe-600 mt-1"><a href="tel:0812345678" class="hover:text-cafe-500 transition-colors">081-234-5678</a></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Social Media -->
+                        <div class="mt-10 flex space-x-4">
+                            <!-- Facebook -->
+                            <a href="#" class="w-12 h-12 rounded-full bg-cafe-50 flex items-center justify-center text-cafe-600 hover:bg-cafe-600 hover:text-white transition-all transform hover:-translate-y-1">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+                            </a>
+                            <!-- LINE -->
+                            <a href="#" class="w-12 h-12 rounded-full bg-cafe-50 flex items-center justify-center text-cafe-600 hover:bg-[#00B900] hover:text-white transition-all transform hover:-translate-y-1 font-bold text-xl leading-none">
+                                L
+                            </a>
+                            <!-- IG -->
+                            <a href="#" class="w-12 h-12 rounded-full bg-cafe-50 flex items-center justify-center text-cafe-600 hover:bg-gradient-to-tr hover:from-yellow-400 hover:via-red-500 hover:to-purple-500 hover:text-white transition-all transform hover:-translate-y-1">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Google Maps Iframe -->
+                    <div class="h-96 lg:h-auto w-full relative">
+                        <!-- Placeholder iframe (Replace src with real Google Maps Embed link) -->
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3875.5682283857585!2d100.512683!3d13.744547!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTPCsDQ0JzQwLjQiTiAxMDDCsDMwJzQ1LjciRQ!5e0!3m2!1sth!2sth!4v1620000000000!5m2!1sth!2sth" 
+                            class="absolute inset-0 w-full h-full border-0" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Footer -->
+    <footer class="bg-cafe-900 text-cafe-200 py-10 border-t border-cafe-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <span class="text-2xl font-bold text-white tracking-wider">บ้านยาสะพานขาว</span>
+                <p class="text-cafe-400 mt-2 text-lg">ร้านยาใกล้บ้าน บริการด้วยใจ</p>
+            </div>
+            <div class="text-center md:text-right">
+                <p class="text-lg">&copy; 2026 บ้านยาสะพานขาว. All rights reserved.</p>
+                <div class="mt-2 space-x-4">
+                    <a href="#" class="hover:text-white transition-colors">นโยบายความเป็นส่วนตัว</a>
+                    <span class="text-cafe-700">|</span>
+                    <a href="#" class="hover:text-white transition-colors">ข้อกำหนดและเงื่อนไข</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script for interactive elements -->
+    <script>
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-button');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('open');
+        });
+
+        // Close mobile menu on link click
+        menu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.remove('open');
+            });
+        });
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 10) {
+                navbar.classList.add('shadow-md');
+                navbar.classList.remove('shadow-sm');
+            } else {
+                navbar.classList.remove('shadow-md');
+                navbar.classList.add('shadow-sm');
+            }
+        });
+    </script>
+</body>
+</html>
