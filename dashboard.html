@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบจัดการคิว (Dashboard) - บ้านยาสะพานขาว</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { itim: ['Itim', 'cursive'] },
+                    colors: {
+                        cafe: {
+                            50: '#fbf8f3', 100: '#f5efe6', 200: '#eadbc3', 300: '#dfc29c',
+                            400: '#d1a271', 500: '#c6864d', 600: '#b96e3f', 700: '#9a5635',
+                            800: '#804832', 900: '#673b2a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Itim', cursive; }
+    </style>
+</head>
+<body class="bg-cafe-50 min-h-screen text-cafe-900 pb-12">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-cafe-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="index.html" class="text-cafe-500 hover:text-cafe-700 mr-4">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </a>
+                <h1 class="text-2xl md:text-3xl font-bold text-cafe-800">แผงควบคุมคิว (Dashboard)</h1>
+            </div>
+            <button onclick="fetchDashboardData()" class="bg-cafe-100 hover:bg-cafe-200 text-cafe-700 px-4 py-2 rounded-lg transition-colors flex items-center font-bold">
+                <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                รีเฟรช
+            </button>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+        <!-- Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white rounded-2xl shadow p-6 border-l-8 border-yellow-400">
+                <div class="text-cafe-500 text-lg font-bold">จำนวนคนที่รอคิว</div>
+                <div class="text-4xl font-black text-cafe-800 mt-2" id="statWaiting">0</div>
+            </div>
+            <div class="bg-white rounded-2xl shadow p-6 border-l-8 border-blue-400">
+                <div class="text-cafe-500 text-lg font-bold">กำลังเรียกบริการ</div>
+                <div class="text-4xl font-black text-cafe-800 mt-2" id="statCalling">0</div>
+            </div>
+            <div class="bg-white rounded-2xl shadow p-6 border-l-8 border-green-400">
+                <div class="text-cafe-500 text-lg font-bold">ให้บริการเสร็จสิ้น (วันนี้)</div>
+                <div class="text-4xl font-black text-cafe-800 mt-2" id="statDone">0</div>
+            </div>
+        </div>
+
+        <h2 class="text-2xl font-bold text-cafe-800 mb-4">คิวที่ต้องดำเนินการ</h2>
+        
+        <!-- Queue Cards Container -->
+        <div id="queueContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Loading -->
+            <div class="col-span-full text-center py-10 text-cafe-500 text-xl" id="loadingMsg">
+                กำลังโหลดข้อมูล...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://odqyebcueuzwwibjkxvc.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9kcXllYmN1ZXV6d3dpYmpreHZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwMDgwMDgsImV4cCI6MjA5NzU4NDAwOH0.h7wKTuKBsv6LDgo-RoUGeX2Cys-5e4JZ8x6hL-ObeVQ';
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        const queueContainer = document.getElementById('queueContainer');
+        const loadingMsg = document.getElementById('loadingMsg');
+
+        // ฟังก์ชันอัปเดตสถานะใน Supabase
+        async function updateStatus(id, newStatus) {
+            try {
+                const { error } = await supabase
+                    .from('queues')
+                    .update({ status: newStatus })
+                    .eq('id', id);
+                
+                if (error) throw error;
+                // รีเฟรชหน้าจอหลังจากอัปเดตสำเร็จ
+                fetchDashboardData();
+            } catch (err) {
+                alert("เกิดข้อผิดพลาดในการอัปเดตสถานะ: " + err.message);
+            }
+        }
+
+        // โหลดข้อมูล Dashboard
+        async function fetchDashboardData() {
+            loadingMsg.classList.remove('hidden');
+            queueContainer.innerHTML = '';
+            queueContainer.appendChild(loadingMsg);
+
+            try {
+                // ดึงข้อมูลทั้งหมดของวันนี้และคิวที่ยังค้างอยู่
+                const today = new Date();
+                today.setHours(0,0,0,0);
+                
+                const { data, error } = await supabase
+                    .from('queues')
+                    .select('*')
+                    .order('created_at', { ascending: true }); // เรียงตามใครมาก่อน
+
+                if (error) throw error;
+
+                // คำนวณสถิติ
+                let waitingCount = 0;
+                let callingCount = 0;
+                let doneCount = 0;
+
+                const activeQueues = [];
+
+                data.forEach(row => {
+                    if (row.status === 'รอคิว') waitingCount++;
+                    if (row.status === 'กำลังเรียก') callingCount++;
+                    
+                    // เช็คว่าเสร็จสิ้นวันนี้ไหม
+                    const rowDate = new Date(row.created_at);
+                    if (row.status === 'เสร็จสิ้น' && rowDate >= today) {
+                        doneCount++;
+                    }
+
+                    // เก็บเฉพาะคิวที่ต้องดำเนินการมาแสดง
+                    if (row.status === 'รอคิว' || row.status === 'กำลังเรียก') {
+                        activeQueues.push(row);
+                    }
+                });
+
+                document.getElementById('statWaiting').innerText = waitingCount;
+                document.getElementById('statCalling').innerText = callingCount;
+                document.getElementById('statDone').innerText = doneCount;
+
+                queueContainer.innerHTML = '';
+
+                if (activeQueues.length === 0) {
+                    queueContainer.innerHTML = `<div class="col-span-full text-center py-10 text-cafe-500 text-xl bg-white rounded-2xl shadow">ไม่มีคิวที่ต้องดำเนินการในขณะนี้ 🎉</div>`;
+                } else {
+                    activeQueues.forEach(row => {
+                        const dateObj = new Date(row.created_at);
+                        const timeStr = dateObj.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
+                        
+                        let cardStyle = "border-cafe-100 bg-white";
+                        let statusBadge = `<span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-bold border border-yellow-200">รอคิว</span>`;
+                        
+                        if (row.status === 'กำลังเรียก') {
+                            cardStyle = "border-blue-300 bg-blue-50 shadow-md ring-2 ring-blue-400 ring-offset-2";
+                            statusBadge = `<span class="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-bold animate-pulse shadow">กำลังเรียกคิวนี้</span>`;
+                        }
+
+                        // แจ้งเตือนความรุนแรง
+                        let alertBadge = "";
+                        if (row.severity_level === 'High') {
+                            alertBadge = `<span class="bg-red-100 text-red-600 px-2 py-1 rounded text-xs font-bold ml-2">⚠️ ด่วน/รุนแรง</span>`;
+                            if (row.status === 'รอคิว') {
+                                cardStyle = "border-red-200 bg-red-50"; // ไฮไลท์การ์ดสีแดงอ่อนถ้ารอคิวอยู่
+                            }
+                        }
+
+                        const card = document.createElement('div');
+                        card.className = `rounded-2xl p-6 border-2 transition-all flex flex-col justify-between ${cardStyle}`;
+                        card.innerHTML = `
+                            <div>
+                                <div class="flex justify-between items-start mb-4">
+                                    <div class="text-4xl font-black text-cafe-900 tracking-wider">${row.queue_number || '-'}</div>
+                                    <div class="flex items-center">${statusBadge}</div>
+                                </div>
+                                <div class="mb-4">
+                                    <div class="text-xl font-bold text-cafe-800 flex items-center">${row.full_name || '-'} ${alertBadge}</div>
+                                    <div class="text-cafe-600 text-sm mt-1">อายุ: ${row.age} ปี | โทร: ${row.phone_number}</div>
+                                </div>
+                                <div class="bg-white/60 p-3 rounded-lg text-sm text-cafe-700 mb-4 border border-cafe-100">
+                                    <div><span class="font-bold">อาการ:</span> ${row.initial_symptoms || '-'}</div>
+                                    <div class="mt-1"><span class="font-bold text-red-500">แพ้ยา:</span> ${row.allergies || '-'}</div>
+                                </div>
+                                <div class="text-xs text-cafe-400 mb-4">เวลารับคิว: ${timeStr} น.</div>
+                            </div>
+                            
+                            <!-- Action Buttons -->
+                            <div class="grid grid-cols-2 gap-2 mt-auto">
+                                ${row.status === 'รอคิว' 
+                                    ? `<button onclick="updateStatus('${row.id}', 'กำลังเรียก')" class="col-span-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow transition-transform transform hover:scale-[1.02]">
+                                         📢 เรียกคิวนี้
+                                       </button>` 
+                                    : `<button onclick="updateStatus('${row.id}', 'เสร็จสิ้น')" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl shadow transition-transform transform hover:scale-[1.02]">
+                                         ✅ เสร็จสิ้น
+                                       </button>
+                                       <button onclick="updateStatus('${row.id}', 'สละสิทธิ์')" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 rounded-xl shadow transition-transform transform hover:scale-[1.02]">
+                                         ❌ สละสิทธิ์
+                                       </button>`
+                                }
+                            </div>
+                        `;
+                        queueContainer.appendChild(card);
+                    });
+                }
+            } catch (err) {
+                queueContainer.innerHTML = `<div class="col-span-full bg-red-50 text-red-700 p-4 rounded-xl">เกิดข้อผิดพลาด: ${err.message}</div>`;
+            }
+        }
+
+        // โหลดข้อมูลเมื่อเปิดหน้าเว็บ
+        window.addEventListener('DOMContentLoaded', fetchDashboardData);
+    </script>
+</body>
+</html>
