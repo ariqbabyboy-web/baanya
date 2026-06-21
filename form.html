@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>จองคิวออนไลน์ - บ้านยาสะพานขาว</title>
+    <!-- Google Fonts: Itim -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        itim: ['Itim', 'cursive'],
+                    },
+                    colors: {
+                        cafe: {
+                            50: '#fbf8f3',
+                            100: '#f5efe6',
+                            200: '#eadbc3',
+                            300: '#dfc29c',
+                            400: '#d1a271',
+                            500: '#c6864d',
+                            600: '#b96e3f',
+                            700: '#9a5635',
+                            800: '#804832',
+                            900: '#673b2a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Itim', cursive;
+        }
+    </style>
+</head>
+<body class="bg-cafe-50 flex items-center justify-center min-h-screen p-4 antialiased text-cafe-900">
+
+    <div class="bg-white p-8 rounded-3xl shadow-xl w-full max-w-2xl relative border border-cafe-100">
+        <a href="index.html" class="absolute top-6 left-6 text-cafe-500 hover:text-cafe-700 transition-colors flex items-center text-lg font-bold">
+            <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            กลับหน้าหลัก
+        </a>
+        
+        <div class="text-center mt-10 mb-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-cafe-800">จองคิวรับบริการ</h2>
+            <p class="text-cafe-600 text-lg mt-2">กรอกข้อมูลเบื้องต้นเพื่อให้เภสัชกรประเมินอาการ</p>
+        </div>
+        
+        <form id="reservationForm" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- ชื่อ-นามสกุล -->
+                <div>
+                    <label class="block text-lg font-medium text-cafe-800">ชื่อ-นามสกุล <span class="text-red-500">*</span></label>
+                    <input type="text" id="full_name" required class="mt-1 block w-full px-4 py-3 bg-cafe-50 border border-cafe-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-cafe-400 focus:border-cafe-400 text-lg">
+                </div>
+
+                <!-- เบอร์โทรศัพท์ -->
+                <div>
+                    <label class="block text-lg font-medium text-cafe-800">เบอร์โทรศัพท์ <span class="text-red-500">*</span></label>
+                    <input type="tel" id="phone_number" required pattern="[0-9]{9,10}" placeholder="08xxxxxxxx" class="mt-1 block w-full px-4 py-3 bg-cafe-50 border border-cafe-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-cafe-400 focus:border-cafe-400 text-lg">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- อายุ -->
+                <div>
+                    <label class="block text-lg font-medium text-cafe-800">อายุ (ปี) <span class="text-red-500">*</span></label>
+                    <input type="number" id="age" required min="0" max="150" class="mt-1 block w-full px-4 py-3 bg-cafe-50 border border-cafe-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-cafe-400 focus:border-cafe-400 text-lg">
+                </div>
+
+                <!-- ระดับความรุนแรง -->
+                <div>
+                    <label class="block text-lg font-medium text-cafe-800">ระดับความรุนแรงของอาการ <span class="text-red-500">*</span></label>
+                    <select id="severity_level" required class="mt-1 block w-full px-4 py-3 bg-cafe-50 border border-cafe-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-cafe-400 focus:border-cafe-400 text-lg">
+                        <option value="Low">เล็กน้อย (Low)</option>
+                        <option value="Medium">ปานกลาง (Medium)</option>
+                        <option value="High">รุนแรง/ฉุกเฉิน (High)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- อาการเบื้องต้น -->
+            <div>
+                <label class="block text-lg font-medium text-cafe-800">อาการเบื้องต้น <span class="text-red-500">*</span></label>
+                <textarea id="initial_symptoms" rows="3" required placeholder="โปรดระบุอาการที่ทำให้มาร้านยา..." class="mt-1 block w-full px-4 py-3 bg-cafe-50 border border-cafe-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-cafe-400 focus:border-cafe-400 text-lg"></textarea>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- ประวัติแพ้ยา -->
+                <div>
+                    <label class="block text-lg font-medium text-cafe-800">ประวัติการแพ้ยา</label>
+                    <input type="text" id="allergies" placeholder="ถ้าไม่มีให้เว้นว่างไว้" class="mt-1 block w-full px-4 py-3 bg-cafe-50 border border-cafe-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-cafe-400 focus:border-cafe-400 text-lg">
+                </div>
+
+                <!-- โรคประจำตัว -->
+                <div>
+                    <label class="block text-lg font-medium text-cafe-800">โรคประจำตัว</label>
+                    <input type="text" id="chronic_diseases" placeholder="ถ้าไม่มีให้เว้นว่างไว้" class="mt-1 block w-full px-4 py-3 bg-cafe-50 border border-cafe-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-cafe-400 focus:border-cafe-400 text-lg">
+                </div>
+            </div>
+
+            <button type="submit" id="submitBtn" class="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-lg text-2xl font-bold text-white bg-cafe-600 hover:bg-cafe-700 focus:outline-none focus:ring-4 focus:ring-cafe-300 transition-all transform hover:-translate-y-1 mt-8">
+                ยืนยันการรับคิว
+            </button>
+        </form>
+
+        <!-- Message Box -->
+        <div id="messageBox" class="mt-6 hidden p-6 rounded-xl text-center text-lg border"></div>
+    </div>
+
+    <script>
+        // กำหนดค่า Supabase
+        const SUPABASE_URL = 'https://odqyebcueuzwwibjkxvc.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9kcXllYmN1ZXV6d3dpYmpreHZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwMDgwMDgsImV4cCI6MjA5NzU4NDAwOH0.h7wKTuKBsv6LDgo-RoUGeX2Cys-5e4JZ8x6hL-ObeVQ';
+        
+        // สร้าง client
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // ฟังก์ชันสุ่มหมายเลขคิวแบบง่าย
+        function generateQueueNumber() {
+            const randomNum = Math.floor(1000 + Math.random() * 9000);
+            return 'W' + randomNum; // W ย่อมาจาก Walk-in
+        }
+
+        document.getElementById('reservationForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const btn = document.getElementById('submitBtn');
+            const messageBox = document.getElementById('messageBox');
+            
+            btn.disabled = true;
+            btn.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-3 h-6 w-6 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                กำลังบันทึกข้อมูล...
+            `;
+            messageBox.classList.add('hidden');
+
+            const payload = {
+                queue_number: generateQueueNumber(),
+                full_name: document.getElementById('full_name').value,
+                phone_number: document.getElementById('phone_number').value,
+                age: parseInt(document.getElementById('age').value),
+                initial_symptoms: document.getElementById('initial_symptoms').value,
+                allergies: document.getElementById('allergies').value || 'ไม่มี',
+                chronic_diseases: document.getElementById('chronic_diseases').value || 'ไม่มี',
+                severity_level: document.getElementById('severity_level').value,
+                is_advance: false,
+                status: 'รอคิว'
+            };
+
+            try {
+                // บันทึกข้อมูลลงตาราง queues ที่ตั้งค่าตาม SRS
+                const { data, error } = await supabase
+                    .from('queues')
+                    .insert([payload])
+                    .select();
+
+                if (error) throw error;
+
+                // สำเร็จ
+                messageBox.classList.remove('hidden', 'bg-red-50', 'text-red-700', 'border-red-200');
+                messageBox.classList.add('bg-green-50', 'text-green-700', 'border-green-200');
+                
+                const qNum = data[0].queue_number;
+                messageBox.innerHTML = `
+                    <div class="text-2xl mb-2">✅ ทำรายการจองคิวสำเร็จ!</div>
+                    <div class="text-gray-600">หมายเลขคิวของคุณคือ</div>
+                    <div class="text-5xl font-bold text-cafe-800 my-4 tracking-widest">${qNum}</div>
+                    <div class="text-sm text-gray-500">กรุณารอการเรียกคิวจากเภสัชกร</div>
+                `;
+                
+                document.getElementById('reservationForm').reset();
+            } catch (err) {
+                // ผิดพลาด
+                messageBox.classList.remove('hidden', 'bg-green-50', 'text-green-700', 'border-green-200');
+                messageBox.classList.add('bg-red-50', 'text-red-700', 'border-red-200');
+                messageBox.innerHTML = `
+                    <div class="font-bold text-xl mb-1">❌ เกิดข้อผิดพลาด</div>
+                    <div class="text-base">${err.message}</div>
+                    <div class="text-sm mt-2 text-red-500">โปรดตรวจสอบว่าได้รันคำสั่ง SQL สร้างตาราง queues ใน Supabase แล้ว</div>
+                `;
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'ยืนยันการรับคิว';
+            }
+        });
+    </script>
+</body>
+</html>
